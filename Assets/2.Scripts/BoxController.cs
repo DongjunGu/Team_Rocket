@@ -6,6 +6,11 @@ public class BoxController : MonoBehaviour
 {
     public float fallDuration = 0.2f;
 
+    /// <summary>
+    /// 파괴되었을때 fallDistance 만큼 떨어뜨림
+    /// </summary>
+    /// <param name="destroyed"></param>
+    /// <param name="fallDistance"></param>
     public void MoveAboveObjectsDown(Transform destroyed, float fallDistance)
     {
         foreach (Transform child in transform)
@@ -17,6 +22,13 @@ public class BoxController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Lerp사용해서 부드럽게 떨어뜨림
+    /// </summary>
+    /// <param name="obj"></param>
+    /// <param name="distance"></param>
+    /// <param name="duration"></param>
+    /// <returns></returns>
     private IEnumerator MoveDown(Transform obj, float distance, float duration)
     {
         Vector3 start = obj.position;
@@ -30,7 +42,6 @@ public class BoxController : MonoBehaviour
             obj.position = Vector3.Lerp(start, end, t);
             yield return null;
         }
-
         obj.position = end;
     }
 }

@@ -5,7 +5,12 @@ using UnityEngine.UI;
 public class Box : MonoBehaviour
 {
     public Slider hpSlider;
-    public float knockbackForce = 2f;
+    public float knockbackForce = 3f;
+    
+    /// <summary>
+    /// 공격받는 함수
+    /// </summary>
+    /// <param name="amount"></param>
     public void TakeDamage(float amount)
     {
         if (hpSlider == null)
@@ -24,6 +29,9 @@ public class Box : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Box가 파괴되면서 크기만큼 아래로 하강 + 약간의 넉백 + 파괴
+    /// </summary>
     public void DestroyBox()
     {
         float height = GetComponent<BoxCollider2D>().size.y * transform.localScale.y;
@@ -34,7 +42,7 @@ public class Box : MonoBehaviour
         {
             if (hit.CompareTag("Zombie"))
             {
-                ZombieMovement zombie = hit.GetComponent<ZombieMovement>();
+                Zombie zombie = hit.GetComponent<Zombie>();
                 if (zombie != null)
                 {
                     zombie.ApplyKnockback(Vector2.right, knockbackForce);
@@ -42,7 +50,6 @@ public class Box : MonoBehaviour
             }
         }
 
-        // 부모인 BoxTrans에게 알림
         transform.parent.GetComponent<BoxController>().MoveAboveObjectsDown(this.transform, height);
 
         Destroy(gameObject);
